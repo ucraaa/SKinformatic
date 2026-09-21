@@ -8,6 +8,9 @@ const stripe = require('stripe')('sk_test_51UI4YvHszZhpsuerfDtBIxNUoQgJt7Z5uks86
 app.use(cors());
 app.use(express.json());
 
+// Servir la página web (index.html) automáticamente
+app.use(express.static(__dirname));
+
 app.post('/api/crear-sesion-pago', async (req, res) => {
     try {
         const { items } = req.body;
@@ -21,12 +24,15 @@ app.post('/api/crear-sesion-pago', async (req, res) => {
             quantity: 1,
         }));
 
+        // Redirige de vuelta a tu web al terminar o cancelar la compra
+        const origin = req.headers.referer || 'http://localhost:3000/';
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: 'https://skinformatic.com/exito',
-            cancel_url: 'https://skinformatic.com/cancelado',
+            success_url: origin,
+            cancel_url: origin,
         });
 
         res.json({ id: session.id });
@@ -36,6 +42,8 @@ app.post('/api/crear-sesion-pago', async (req, res) => {
     }
 });
 
-app.listen(3000, () => {
-    console.log('✅ Servidor de SKinformatic ejecutándose en http://localhost:3000');
+// PUERTO DINÁMICO PARA RENDER O LOCALHOST
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`✅ Servidor de SKinformatic ejecutándose en el puerto ${PORT}`);
 });
