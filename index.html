@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKinformatic | IT Solutions & Hardware</title>
+
+    <!-- CAPAS DE SEGURIDAD INTEGRADA -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https: http://localhost:3000 http://127.0.0.1:3000; img-src 'self' data: https:;">
+
+    <!-- LIBRERÍA OFICIAL DE STRIPE -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            background: #f4f6fb; 
+            margin: 0; 
+            padding: 20px 10px 0 10px; 
+            text-align: center; 
+            color: #1e293b; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .main-content { flex: 1; }
+
+        /* CABECERA Y LOGO PERSONALIZADO */
+        .brand-header { margin-bottom: 20px; }
+        .brand-logo { font-size: 2.3rem; letter-spacing: -1px; margin: 0; display: inline-block; }
+        
+        .brand-logo .logo-sk {
+            font-weight: 900;
+            background: linear-gradient(135deg, #0f172a, #2575fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .brand-logo .logo-info { font-weight: 300; color: #64748b; letter-spacing: 0px; }
+        .brand-tagline { font-size: 0.9rem; color: #64748b; margin-top: 4px; font-weight: 500; }
+
+        /* NAVEGACIÓN */
+        nav { margin-bottom: 25px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        nav button { 
+            background: #e2e8f0; color: #1e293b; border: none; padding: 10px 20px; 
+            border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 0.95rem; transition: 0.2s; 
+        }
+        nav button.active { background: #0f172a; color: #fff; }
+
+        h1 { color: #1e293b; margin-bottom: 20px; font-size: 1.6rem; }
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 950px; margin: 0 auto; }
+        
+        .card { 
+            background: #fff; border-radius: 16px; padding: 15px; width: 210px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;
+        }
+        
+        .img-box { height: 130px; border-radius: 10px; overflow: hidden; background: #e2e8f0; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .card:hover .img-box img { transform: scale(1.05); }
+
+        h3 { margin: 12px 0 4px; font-size: 1.05rem; line-height: 1.3; }
+        p { margin-bottom: 12px; font-weight: bold; color: #64748b; font-size: 0.95rem; }
+        
+        .btn-action { 
+            background: #0f172a; color: #fff; border: none; padding: 10px; border-radius: 8px; 
+            cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; 
+        }
+        .btn-action:hover { background: #2575fc; }
+        
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* FORMULARIOS, LOGIN Y REGISTRO */
+        .form-card { background: #fff; max-width: 420px; margin: 0 auto; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: left; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; color: #475569; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; }
+        .form-group input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); }
+
+        .auth-toggle { display: flex; background: #f1f5f9; border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+        .auth-toggle button { flex: 1; border: none; background: none; padding: 8px; border-radius: 8px; font-weight: bold; cursor: pointer; color: #64748b; font-size: 0.85rem; }
+        .auth-toggle button.active { background: #fff; color: #0f172a; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+
+        /* CARRITO DE COMPRAS */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.95rem; }
+        .cart-item-name { font-weight: 600; color: #1e293b; }
+        .cart-item-price { font-weight: bold; color: #2575fc; }
+        .btn-remove { background: #fee2e2; color: #ef4444; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.8rem; margin-left: 8px; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin: 20px 0 15px; border-top: 2px dashed #e2e8f0; padding-top: 15px; }
+
+        /* PIE DE PÁGINA (FOOTER) */
+        footer {
+            background: #0f172a; color: #cbd5e1; margin-top: 50px; padding: 30px 20px 20px 20px;
+            border-top-left-radius: 20px; border-top-right-radius: 20px; font-size: 0.9rem; text-align: left;
+        }
+        .footer-container { max-width: 950px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 25px; }
+        .footer-col { flex: 1; min-width: 220px; }
+        .footer-col h4 { color: #fff; margin-top: 0; margin-bottom: 12px; font-size: 1rem; }
+        .footer-col a { color: #38bdf8; text-decoration: none; display: inline-block; margin-bottom: 8px; }
+        .social-tag { background: #1e293b; padding: 6px 12px; border-radius: 6px; color: #e2e8f0 !important; font-weight: 500; font-size: 0.85rem; border: 1px solid #334155; display: inline-block; margin-bottom: 6px; }
+        .social-tag:hover { background: #2575fc; border-color: #2575fc; }
+        .footer-bottom { max-width: 950px; margin: 25px auto 0; padding-top: 15px; border-top: 1px solid #1e293b; text-align: center; font-size: 0.8rem; color: #64748b; }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <!-- LOGOTIPO DE MARCA -->
+        <div class="brand-header">
+            <div class="brand-logo"><span class="logo-sk">SK</span><span class="logo-info">INFORMATIC</span></div>
+            <div class="brand-tagline">Soluciones Informáticas, Hardware & Servicios Cloud</div>
+        </div>
+
+        <!-- NAVEGACIÓN PRINCIPAL -->
+        <nav>
+            <button class="active" onclick="verPagina('productos', this)">Productos</button>
+            <button onclick="verPagina('servicios', this)">Servicios</button>
+            <button id="btn-cart" onclick="verPagina('carrito', this)">Carrito (0)</button>
+            <button id="btn-cuenta-nav" onclick="verPagina('cuenta', this)">Cuenta</button>
+        </nav>
+
+        <!-- PÁGINA 1: LOS 4 PRODUCTOS DE HARDWARE -->
+        <div id="productos" class="page active">
+            <h1>Hardware & Periféricos Pro</h1>
+            <div class="grid">
+                <div class="card">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=400&q=80" alt="PC Workstation">
+                    </div>
+                    <h3>PC Workstation SKinformatic Ultra</h3>
+                    <p>1.499,99 €</p>
+                    <button class="btn-action" onclick="agregarAlCarrito('PC Workstation SKinformatic Ultra', 1499.99)">Añadir al Carrito</button>
+                </div>
+                <div class="card">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=400&q=80" alt="Teclado y Ratón">
+                    </div>
+                    <h3>Pack Teclado Mecánico + Ratón Pro</h3>
+                    <p>89,99 €</p>
+                    <button class="btn-action" onclick="agregarAlCarrito('Pack Teclado Mecánico + Ratón Pro', 89.99)">Añadir al Carrito</button>
+                </div>
+                <div class="card">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=400&q=80" alt="Gafas VR">
+                    </div>
+                    <h3>Gafas de Realidad Virtual VR-Pro</h3>
+                    <p>449,99 €</p>
+                    <button class="btn-action" onclick="agregarAlCarrito('Gafas de Realidad Virtual VR-Pro', 449.99)">Añadir al Carrito</button>
+                </div>
+                <div class="card">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=400&q=80" alt="Monitor Ultrawide">
+                    </div>
+                    <h3>Monitor Ultrawide 4K 144Hz</h3>
+                    <p>379,99 €</p>
+                    <button class="btn-action" onclick="agregarAlCarrito('Monitor Ultrawide 4K 144Hz', 379.99)">Añadir al Carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA 2: LOS 4 SERVICIOS DE SOFTWARE -->
+        <div id="servicios" class="page">
+            <h1>Software, IA & Licencias SaaS</h1>
+            <div class="grid">
+                <div class="card">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=400&q=80" alt="Microsoft 365">
+                    </div>
+                    <h3>Microsoft 365 Business Plan</h3>
+                    <p>14,99 € / mes</p>
+                    <button class="btn-action" onclick="agregarAlCarrito('Microsoft 365 Business Plan', 14.99)">Añadir al Carrito</button>
+                </div>
+                <div class="card">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80" alt="Suscripción IA Pro">
+                    </div>
+                    <h3>SKinformatic IA Pro (Acceso Multimodelo)</h3>
+                    <p>24,99 € / mes</p>
+                    <button class="btn-action" onclick="agregarAlCarrito('SKinformatic IA Pro (Acceso Multimodelo)', 24.99)">Añadir al Carrito</button>
+                </div>
+                <div class="card">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=400&q=80" alt="Servidor VPS Cloud">
+                    </div>
+                    <h3>Servidor Cloud VPS Dedicado</h3>
+                    <p>49,00 € / mes</p>
+                    <button class="btn-action" onclick="agregarAlCarrito('Servidor Cloud VPS Dedicado', 49.00)">Añadir al Carrito</button>
+                </div>
+                <div class="card">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=400&q=80" alt="Soporte Informático">
+                    </div>
+                    <h3>Soporte Informático & Ciberseguridad</h3>
+                    <p>99,00 € / mes</p>
+                    <button class="btn-action" onclick="agregarAlCarrito('Soporte Informático & Ciberseguridad', 99.00)">Añadir al Carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA 3: CARRITO DE COMPRA CON STRIPE -->
+        <div id="carrito" class="page">
+            <h1>Tu Resumen de Compra</h1>
+            <div class="form-card">
+                <div id="lista-carrito"></div>
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="precio-total">0,00 €</span>
+                </div>
+                <!-- BOTÓN PAGO STRIPE -->
+                <button id="btn-checkout" class="btn-action" onclick="pagarConStripe()" disabled style="opacity: 0.5; background: #6366f1;">Pagar de forma segura con Stripe 🔒</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 4: CUENTA (INICIO DE SESIÓN Y REGISTRO COMPLETO) -->
+        <div id="cuenta" class="page">
+            <h1 id="cuenta-titulo">Mi Cuenta SKinformatic</h1>
+            <div class="form-card">
+                
+                <!-- PERFIL DEL USUARIO AUTENTICADO -->
+                <div id="user-profile" style="display: none;">
+                    <h2 style="margin-top:0; font-size:1.2rem; color:#1e293b;">¡Hola, <span id="user-display-name"></span>!</h2>
+                    <p style="font-weight: normal; color:#64748b; font-size:0.9rem;" id="user-display-email"></p>
+                    <div style="background:#f1f5f9; padding:12px; border-radius:8px; margin: 15px 0; font-size:0.85rem; color:#334155;">
+                        Estado: <strong>Cliente Verificado SKinformatic</strong>
+                    </div>
+                    <button class="btn-action" onclick="cerrarSesion()" style="background:#dc2626;">Cerrar Sesión</button>
+                </div>
+
+                <!-- FORMULARIOS DE LOGIN Y REGISTRO -->
+                <div id="auth-forms">
+                    <div class="auth-toggle">
+                        <button id="tab-login" class="active" onclick="toggleAuth('login')">Iniciar Sesión</button>
+                        <button id="tab-register" onclick="toggleAuth('register')">Crear Cuenta</button>
+                    </div>
+
+                    <!-- FORMULARIO LOGIN -->
+                    <form id="form-login" onsubmit="procesarLogin(event)">
+                        <div class="form-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" id="login-email" placeholder="tu@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" id="login-password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-action">Entrar a mi perfil</button>
+                    </form>
+
+                    <!-- FORMULARIO REGISTRO -->
+                    <form id="form-register" style="display: none;" onsubmit="procesarRegistro(event)">
+                        <div class="form-group">
+                            <label>Nombre Completo</label>
+                            <input type="text" id="reg-nombre" placeholder="Carlos Rodríguez" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" id="reg-email" placeholder="tu@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Crear Contraseña</label>
+                            <input type="password" id="reg-password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-action" style="background: #2575fc;">Registrarme en SKinformatic</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- PIE DE PÁGINA (FOOTER CON CORREO, TELÉFONO Y REDES) -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Atención al Cliente</h4>
+                <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #94a3b8;">📧 Correo electrónico:</p>
+                <a href="mailto:skinformatic@gmail.com">skinformatic@gmail.com</a>
+                
+                <p style="margin: 12px 0 8px 0; font-size: 0.85rem; color: #94a3b8;">📞 Teléfono de contacto:</p>
+                <a href="tel:+34640093889" onclick="gestionarTelefono(event, '+34640093889')">
+                    +34 640 093 889 <span style="font-size:0.75rem; opacity:0.8;">(Llamar / Copiar)</span>
+                </a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Síguenos en Redes</h4>
+                <div>
+                    <a href="https://www.instagram.com/SKinformatic" target="_blank" class="social-tag">📷 Instagram: @SKinformatic</a><br>
+                    <a href="https://www.facebook.com/SKinformatic" target="_blank" class="social-tag">📘 Facebook: @SKinformatic</a><br>
+                    <a href="https://www.tiktok.com/@SKinformatic" target="_blank" class="social-tag">🎵 TikTok: @SKinformatic</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; SKinformatic - Soluciones Informáticas & Servicios Cloud. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- LÓGICA DE JAVASCRIPT INTEGRADA -->
+    <script>
+        // CONEXIÓN STRIPE CON TU CLAVE PUBLICABLE
+        const stripe = Stripe('pk_test_51UI4YvHszZhpsuer7qShDCyPDATDZ5urmHODMsYQTGzVSPxmsLCh6zgBTGKClKl7DWSBK9RP25nNladrIyOfEMF500V1L3qnV8');
+
+        let carrito = [];
+
+        // TELÉFONO DINÁMICO (LLAMAR / COPIAR)
+        function gestionarTelefono(event, numero) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(numero);
+                alert(`Número ${numero} copiado al portapapeles.`);
+            }
+        }
+
+        // SISTEMA DE NAVEGACIÓN
+        function verPagina(id, boton) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(boton) boton.classList.add('active');
+        }
+
+        // GESTIÓN DE CUENTAS (LOCALSTORAGE)
+        let usuariosBD = JSON.parse(localStorage.getItem('skin_usuarios')) || [];
+        let usuarioSesion = JSON.parse(localStorage.getItem('skin_sesion_activa')) || null;
+
+        function actualizarEstadoCuentaUI() {
+            const userProfile = document.getElementById('user-profile');
+            const authForms = document.getElementById('auth-forms');
+            const navBtn = document.getElementById('btn-cuenta-nav');
+
+            if (usuarioSesion) {
+                userProfile.style.display = 'block';
+                authForms.style.display = 'none';
+                document.getElementById('user-display-name').innerText = usuarioSesion.nombre;
+                document.getElementById('user-display-email').innerText = usuarioSesion.email;
+                navBtn.innerText = `Cuenta (${usuarioSesion.nombre.split(' ')[0]})`;
+            } else {
+                userProfile.style.display = 'none';
+                authForms.style.display = 'block';
+                navBtn.innerText = 'Cuenta';
+            }
+        }
+
+        function procesarRegistro(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('reg-nombre').value.trim();
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const password = document.getElementById('reg-password').value;
+
+            if (usuariosBD.some(u => u.email === email)) {
+                alert('El correo electrónico ya está registrado. Por favor, inicia sesión.');
+                toggleAuth('login');
+                return;
+            }
+
+            const nuevoUsuario = { nombre, email, password };
+            usuariosBD.push(nuevoUsuario);
+            localStorage.setItem('skin_usuarios', JSON.stringify(usuariosBD));
+
+            alert('¡Cuenta creada con éxito! Ahora puedes iniciar sesión.');
+            document.getElementById('form-register').reset();
+            toggleAuth('login');
+        }
+
+        function procesarLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value;
+
+            const usuarioValido = usuariosBD.find(u => u.email === email && u.password === password);
+
+            if (!usuarioValido) {
+                alert('Error de autenticación: Usuario o contraseña incorrectos.');
+                return;
+            }
+
+            usuarioSesion = { nombre: usuarioValido.nombre, email: usuarioValido.email };
+            localStorage.setItem('skin_sesion_activa', JSON.stringify(usuarioSesion));
+            
+            document.getElementById('form-login').reset();
+            actualizarEstadoCuentaUI();
+            alert(`¡Bienvenido de nuevo, ${usuarioSesion.nombre}!`);
+        }
+
+        function cerrarSesion() {
+            usuarioSesion = null;
+            localStorage.removeItem('skin_sesion_activa');
+            actualizarEstadoCuentaUI();
+            alert('Has cerrado sesión correctamente.');
+        }
+
+        function toggleAuth(modo) {
+            const formLogin = document.getElementById('form-login');
+            const formRegister = document.getElementById('form-register');
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+
+            if (modo === 'login') {
+                formLogin.style.display = 'block';
+                formRegister.style.display = 'none';
+                tabLogin.classList.add('active');
+                tabRegister.classList.remove('active');
+            } else {
+                formLogin.style.display = 'none';
+                formRegister.style.display = 'block';
+                tabRegister.classList.add('active');
+                tabLogin.classList.remove('active');
+            }
+        }
+
+        // LÓGICA DE CARRITO
+        function agregarAlCarrito(nombre, precio) {
+            carrito.push({ nombre, precio });
+            actualizarCarritoUI();
+            alert(`¡${nombre} añadido a tu carrito!`);
+        }
+
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            actualizarCarritoUI();
+        }
+
+        function actualizarCarritoUI() {
+            const btnCart = document.getElementById('btn-cart');
+            const lista = document.getElementById('lista-carrito');
+            const totalElem = document.getElementById('precio-total');
+            const btnCheckout = document.getElementById('btn-checkout');
+
+            btnCart.innerText = `Carrito (${carrito.length})`;
+
+            if (carrito.length === 0) {
+                lista.innerHTML = '<p style="color:#94a3b8; text-align:center;">El carrito está vacío.</p>';
+                totalElem.innerText = '0,00 €';
+                btnCheckout.disabled = true;
+                btnCheckout.style.opacity = '0.5';
+                return;
+            }
+
+            btnCheckout.disabled = false;
+            btnCheckout.style.opacity = '1';
+
+            let total = 0;
+            lista.innerHTML = '';
+
+            carrito.forEach((item, index) => {
+                total += item.precio;
+                lista.innerHTML += `
+                    <div class="cart-item">
+                        <span class="cart-item-name">${item.nombre}</span>
+                        <div>
+                            <span class="cart-item-price">${item.precio.toFixed(2)} €</span>
+                            <button class="btn-remove" onclick="eliminarDelCarrito(${index})">✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            totalElem.innerText = `${total.toFixed(2)} €`;
+        }
+
+        // CONEXIÓN CON TU SERVIDOR DE STRIPE (node server.js)
+        async function pagarConStripe() {
+            if (carrito.length === 0) return;
+
+            const btnCheckout = document.getElementById('btn-checkout');
+            btnCheckout.innerText = "Conectando con Stripe...";
+            btnCheckout.disabled = true;
+
+            try {
+                const respuesta = await fetch('/api/crear-sesion-pago', {
+                    app.use(express.static(__dirname));
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: carrito })
+                });
+
+                const sesion = await respuesta.json();
+
+                if (sesion.error) {
+                    alert('Error en el servidor: ' + sesion.error);
+                    btnCheckout.innerText = "Pagar de forma segura con Stripe 🔒";
+                    btnCheckout.disabled = false;
+                    return;
+                }
+
+                const resultado = await stripe.redirectToCheckout({
+                    sessionId: sesion.id
+                });
+
+                if (resultado.error) {
+                    alert(resultado.error.message);
+                }
+            } catch (err) {
+                alert('No se pudo conectar con el servidor backend. Asegúrate de tener corriendo "node server.js".');
+                btnCheckout.innerText = "Pagar de forma segura con Stripe 🔒";
+                btnCheckout.disabled = false;
+            }
+        }
+
+        actualizarCarritoUI();
+        actualizarEstadoCuentaUI();
+    </script>
+</body>
+</html>
