@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SKinformatic | IT Solutions & Hardware</title>
 
-    <!-- CAPAS DE SEGURIDAD INTEGRADA -->
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https: http://localhost:3000 http://127.0.0.1:3000; img-src 'self' data: https:;">
-
     <!-- LIBRERÍA OFICIAL DE STRIPE -->
     <script src="https://js.stripe.com/v3/"></script>
 
@@ -127,38 +121,30 @@
             <button id="btn-cuenta-nav" onclick="verPagina('cuenta', this)">Cuenta</button>
         </nav>
 
-        <!-- PÁGINA 1: LOS 4 PRODUCTOS DE HARDWARE -->
+        <!-- PÁGINA 1: PRODUCTOS -->
         <div id="productos" class="page active">
             <h1>Hardware & Periféricos Pro</h1>
             <div class="grid">
                 <div class="card">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=400&q=80" alt="PC Workstation">
-                    </div>
+                    <div class="img-box"><img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=400&q=80" alt="PC Workstation"></div>
                     <h3>PC Workstation SKinformatic Ultra</h3>
                     <p>1.499,99 €</p>
                     <button class="btn-action" onclick="agregarAlCarrito('PC Workstation SKinformatic Ultra', 1499.99)">Añadir al Carrito</button>
                 </div>
                 <div class="card">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=400&q=80" alt="Teclado y Ratón">
-                    </div>
+                    <div class="img-box"><img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=400&q=80" alt="Teclado y Ratón"></div>
                     <h3>Pack Teclado Mecánico + Ratón Pro</h3>
                     <p>89,99 €</p>
                     <button class="btn-action" onclick="agregarAlCarrito('Pack Teclado Mecánico + Ratón Pro', 89.99)">Añadir al Carrito</button>
                 </div>
                 <div class="card">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=400&q=80" alt="Gafas VR">
-                    </div>
+                    <div class="img-box"><img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=400&q=80" alt="Gafas VR"></div>
                     <h3>Gafas de Realidad Virtual VR-Pro</h3>
                     <p>449,99 €</p>
                     <button class="btn-action" onclick="agregarAlCarrito('Gafas de Realidad Virtual VR-Pro', 449.99)">Añadir al Carrito</button>
                 </div>
                 <div class="card">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=400&q=80" alt="Monitor Ultrawide">
-                    </div>
+                    <div class="img-box"><img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=400&q=80" alt="Monitor Ultrawide"></div>
                     <h3>Monitor Ultrawide 4K 144Hz</h3>
                     <p>379,99 €</p>
                     <button class="btn-action" onclick="agregarAlCarrito('Monitor Ultrawide 4K 144Hz', 379.99)">Añadir al Carrito</button>
@@ -166,38 +152,30 @@
             </div>
         </div>
 
-        <!-- PÁGINA 2: LOS 4 SERVICIOS DE SOFTWARE -->
+        <!-- PÁGINA 2: SERVICIOS -->
         <div id="servicios" class="page">
             <h1>Software, IA & Licencias SaaS</h1>
             <div class="grid">
                 <div class="card">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=400&q=80" alt="Microsoft 365">
-                    </div>
+                    <div class="img-box"><img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=400&q=80" alt="Microsoft 365"></div>
                     <h3>Microsoft 365 Business Plan</h3>
                     <p>14,99 € / mes</p>
                     <button class="btn-action" onclick="agregarAlCarrito('Microsoft 365 Business Plan', 14.99)">Añadir al Carrito</button>
                 </div>
                 <div class="card">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80" alt="Suscripción IA Pro">
-                    </div>
+                    <div class="img-box"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80" alt="Suscripción IA Pro"></div>
                     <h3>SKinformatic IA Pro (Acceso Multimodelo)</h3>
                     <p>24,99 € / mes</p>
                     <button class="btn-action" onclick="agregarAlCarrito('SKinformatic IA Pro (Acceso Multimodelo)', 24.99)">Añadir al Carrito</button>
                 </div>
                 <div class="card">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=400&q=80" alt="Servidor VPS Cloud">
-                    </div>
+                    <div class="img-box"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=400&q=80" alt="Servidor VPS Cloud"></div>
                     <h3>Servidor Cloud VPS Dedicado</h3>
                     <p>49,00 € / mes</p>
                     <button class="btn-action" onclick="agregarAlCarrito('Servidor Cloud VPS Dedicado', 49.00)">Añadir al Carrito</button>
                 </div>
                 <div class="card">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=400&q=80" alt="Soporte Informático">
-                    </div>
+                    <div class="img-box"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=400&q=80" alt="Soporte Informático"></div>
                     <h3>Soporte Informático & Ciberseguridad</h3>
                     <p>99,00 € / mes</p>
                     <button class="btn-action" onclick="agregarAlCarrito('Soporte Informático & Ciberseguridad', 99.00)">Añadir al Carrito</button>
@@ -205,7 +183,7 @@
             </div>
         </div>
 
-        <!-- PÁGINA 3: CARRITO DE COMPRA CON STRIPE -->
+        <!-- PÁGINA 3: CARRITO -->
         <div id="carrito" class="page">
             <h1>Tu Resumen de Compra</h1>
             <div class="form-card">
@@ -214,17 +192,14 @@
                     <span>Total:</span>
                     <span id="precio-total">0,00 €</span>
                 </div>
-                <!-- BOTÓN PAGO STRIPE -->
                 <button id="btn-checkout" class="btn-action" onclick="pagarConStripe()" disabled style="opacity: 0.5; background: #6366f1;">Pagar de forma segura con Stripe 🔒</button>
             </div>
         </div>
 
-        <!-- PÁGINA 4: CUENTA (INICIO DE SESIÓN Y REGISTRO COMPLETO) -->
+        <!-- PÁGINA 4: CUENTA -->
         <div id="cuenta" class="page">
             <h1 id="cuenta-titulo">Mi Cuenta SKinformatic</h1>
             <div class="form-card">
-                
-                <!-- PERFIL DEL USUARIO AUTENTICADO -->
                 <div id="user-profile" style="display: none;">
                     <h2 style="margin-top:0; font-size:1.2rem; color:#1e293b;">¡Hola, <span id="user-display-name"></span>!</h2>
                     <p style="font-weight: normal; color:#64748b; font-size:0.9rem;" id="user-display-email"></p>
@@ -234,14 +209,12 @@
                     <button class="btn-action" onclick="cerrarSesion()" style="background:#dc2626;">Cerrar Sesión</button>
                 </div>
 
-                <!-- FORMULARIOS DE LOGIN Y REGISTRO -->
                 <div id="auth-forms">
                     <div class="auth-toggle">
                         <button id="tab-login" class="active" onclick="toggleAuth('login')">Iniciar Sesión</button>
                         <button id="tab-register" onclick="toggleAuth('register')">Crear Cuenta</button>
                     </div>
 
-                    <!-- FORMULARIO LOGIN -->
                     <form id="form-login" onsubmit="procesarLogin(event)">
                         <div class="form-group">
                             <label>Correo Electrónico</label>
@@ -254,7 +227,6 @@
                         <button type="submit" class="btn-action">Entrar a mi perfil</button>
                     </form>
 
-                    <!-- FORMULARIO REGISTRO -->
                     <form id="form-register" style="display: none;" onsubmit="procesarRegistro(event)">
                         <div class="form-group">
                             <label>Nombre Completo</label>
@@ -271,25 +243,20 @@
                         <button type="submit" class="btn-action" style="background: #2575fc;">Registrarme en SKinformatic</button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <!-- PIE DE PÁGINA (FOOTER CON CORREO, TELÉFONO Y REDES) -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-container">
             <div class="footer-col">
                 <h4>Atención al Cliente</h4>
                 <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #94a3b8;">📧 Correo electrónico:</p>
                 <a href="mailto:skinformatic@gmail.com">skinformatic@gmail.com</a>
-                
                 <p style="margin: 12px 0 8px 0; font-size: 0.85rem; color: #94a3b8;">📞 Teléfono de contacto:</p>
-                <a href="tel:+34640093889" onclick="gestionarTelefono(event, '+34640093889')">
-                    +34 640 093 889 <span style="font-size:0.75rem; opacity:0.8;">(Llamar / Copiar)</span>
-                </a>
+                <a href="tel:+34640093889" onclick="gestionarTelefono(event, '+34640093889')">+34 640 093 889</a>
             </div>
-
             <div class="footer-col">
                 <h4>Síguenos en Redes</h4>
                 <div>
@@ -299,19 +266,22 @@
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            &copy; SKinformatic - Soluciones Informáticas & Servicios Cloud. Todos los derechos reservados.
-        </div>
+        <div class="footer-bottom">&copy; SKinformatic - Todos los derechos reservados.</div>
     </footer>
 
-    <!-- LÓGICA DE JAVASCRIPT INTEGRADA -->
     <script>
-        // CONEXIÓN STRIPE CON TU CLAVE PUBLICABLE
-        const stripe = Stripe('pk_test_51UI4YvHszZhpsuer7qShDCyPDATDZ5urmHODMsYQTGzVSPxmsLCh6zgBTGKClKl7DWSBK9RP25nNladrIyOfEMF500V1L3qnV8');
+        // INICIALIZACIÓN SEGURA DE STRIPE PARA EVITAR BLOQUEOS
+        let stripe = null;
+        try {
+            if (typeof Stripe !== 'undefined') {
+                stripe = Stripe('pk_test_51UI4YvHszZhpsuer7qShDCyPDATDZ5urmHODMsYQTGzVSPxmsLCh6zgBTGKClKl7DWSBK9RP25nNladrIyOfEMF500V1L3qnV8');
+            }
+        } catch (e) {
+            console.warn("Stripe no se ha podido cargar aún:", e);
+        }
 
         let carrito = [];
 
-        // TELÉFONO DINÁMICO (LLAMAR / COPIAR)
         function gestionarTelefono(event, numero) {
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(numero);
@@ -319,17 +289,22 @@
             }
         }
 
-        // SISTEMA DE NAVEGACIÓN
         function verPagina(id, boton) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            if(boton) boton.classList.add('active');
+            const targetPage = document.getElementById(id);
+            if (targetPage) targetPage.classList.add('active');
+            if (boton) boton.classList.add('active');
         }
 
-        // GESTIÓN DE CUENTAS (LOCALSTORAGE)
-        let usuariosBD = JSON.parse(localStorage.getItem('skin_usuarios')) || [];
-        let usuarioSesion = JSON.parse(localStorage.getItem('skin_sesion_activa')) || null;
+        let usuariosBD = [];
+        let usuarioSesion = null;
+        try {
+            usuariosBD = JSON.parse(localStorage.getItem('skin_usuarios')) || [];
+            usuarioSesion = JSON.parse(localStorage.getItem('skin_sesion_activa')) || null;
+        } catch(e) {
+            console.warn("LocalStorage no disponible:", e);
+        }
 
         function actualizarEstadoCuentaUI() {
             const userProfile = document.getElementById('user-profile');
@@ -337,15 +312,17 @@
             const navBtn = document.getElementById('btn-cuenta-nav');
 
             if (usuarioSesion) {
-                userProfile.style.display = 'block';
-                authForms.style.display = 'none';
-                document.getElementById('user-display-name').innerText = usuarioSesion.nombre;
-                document.getElementById('user-display-email').innerText = usuarioSesion.email;
-                navBtn.innerText = `Cuenta (${usuarioSesion.nombre.split(' ')[0]})`;
+                if (userProfile) userProfile.style.display = 'block';
+                if (authForms) authForms.style.display = 'none';
+                const nameElem = document.getElementById('user-display-name');
+                const emailElem = document.getElementById('user-display-email');
+                if (nameElem) nameElem.innerText = usuarioSesion.nombre;
+                if (emailElem) emailElem.innerText = usuarioSesion.email;
+                if (navBtn) navBtn.innerText = `Cuenta (${usuarioSesion.nombre.split(' ')[0]})`;
             } else {
-                userProfile.style.display = 'none';
-                authForms.style.display = 'block';
-                navBtn.innerText = 'Cuenta';
+                if (userProfile) userProfile.style.display = 'none';
+                if (authForms) authForms.style.display = 'block';
+                if (navBtn) navBtn.innerText = 'Cuenta';
             }
         }
 
@@ -356,16 +333,14 @@
             const password = document.getElementById('reg-password').value;
 
             if (usuariosBD.some(u => u.email === email)) {
-                alert('El correo electrónico ya está registrado. Por favor, inicia sesión.');
+                alert('El correo ya está registrado.');
                 toggleAuth('login');
                 return;
             }
 
-            const nuevoUsuario = { nombre, email, password };
-            usuariosBD.push(nuevoUsuario);
-            localStorage.setItem('skin_usuarios', JSON.stringify(usuariosBD));
-
-            alert('¡Cuenta creada con éxito! Ahora puedes iniciar sesión.');
+            usuariosBD.push({ nombre, email, password });
+            try { localStorage.setItem('skin_usuarios', JSON.stringify(usuariosBD)); } catch(e){}
+            alert('¡Cuenta creada con éxito! Inicia sesión.');
             document.getElementById('form-register').reset();
             toggleAuth('login');
         }
@@ -374,17 +349,15 @@
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim().toLowerCase();
             const password = document.getElementById('login-password').value;
-
             const usuarioValido = usuariosBD.find(u => u.email === email && u.password === password);
 
             if (!usuarioValido) {
-                alert('Error de autenticación: Usuario o contraseña incorrectos.');
+                alert('Usuario o contraseña incorrectos.');
                 return;
             }
 
             usuarioSesion = { nombre: usuarioValido.nombre, email: usuarioValido.email };
-            localStorage.setItem('skin_sesion_activa', JSON.stringify(usuarioSesion));
-            
+            try { localStorage.setItem('skin_sesion_activa', JSON.stringify(usuarioSesion)); } catch(e){}
             document.getElementById('form-login').reset();
             actualizarEstadoCuentaUI();
             alert(`¡Bienvenido de nuevo, ${usuarioSesion.nombre}!`);
@@ -392,35 +365,22 @@
 
         function cerrarSesion() {
             usuarioSesion = null;
-            localStorage.removeItem('skin_sesion_activa');
+            try { localStorage.removeItem('skin_sesion_activa'); } catch(e){}
             actualizarEstadoCuentaUI();
-            alert('Has cerrado sesión correctamente.');
+            alert('Has cerrado sesión.');
         }
 
         function toggleAuth(modo) {
-            const formLogin = document.getElementById('form-login');
-            const formRegister = document.getElementById('form-register');
-            const tabLogin = document.getElementById('tab-login');
-            const tabRegister = document.getElementById('tab-register');
-
-            if (modo === 'login') {
-                formLogin.style.display = 'block';
-                formRegister.style.display = 'none';
-                tabLogin.classList.add('active');
-                tabRegister.classList.remove('active');
-            } else {
-                formLogin.style.display = 'none';
-                formRegister.style.display = 'block';
-                tabRegister.classList.add('active');
-                tabLogin.classList.remove('active');
-            }
+            document.getElementById('form-login').style.display = modo === 'login' ? 'block' : 'none';
+            document.getElementById('form-register').style.display = modo === 'register' ? 'block' : 'none';
+            document.getElementById('tab-login').classList.toggle('active', modo === 'login');
+            document.getElementById('tab-register').classList.toggle('active', modo === 'register');
         }
 
-        // LÓGICA DE CARRITO
         function agregarAlCarrito(nombre, precio) {
             carrito.push({ nombre, precio });
             actualizarCarritoUI();
-            alert(`¡${nombre} añadido a tu carrito!`);
+            alert(`¡${nombre} añadido al carrito!`);
         }
 
         function eliminarDelCarrito(index) {
@@ -434,39 +394,42 @@
             const totalElem = document.getElementById('precio-total');
             const btnCheckout = document.getElementById('btn-checkout');
 
-            btnCart.innerText = `Carrito (${carrito.length})`;
+            if (btnCart) btnCart.innerText = `Carrito (${carrito.length})`;
 
             if (carrito.length === 0) {
-                lista.innerHTML = '<p style="color:#94a3b8; text-align:center;">El carrito está vacío.</p>';
-                totalElem.innerText = '0,00 €';
-                btnCheckout.disabled = true;
-                btnCheckout.style.opacity = '0.5';
+                if (lista) lista.innerHTML = '<p style="color:#94a3b8; text-align:center;">El carrito está vacío.</p>';
+                if (totalElem) totalElem.innerText = '0,00 €';
+                if (btnCheckout) {
+                    btnCheckout.disabled = true;
+                    btnCheckout.style.opacity = '0.5';
+                }
                 return;
             }
 
-            btnCheckout.disabled = false;
-            btnCheckout.style.opacity = '1';
+            if (btnCheckout) {
+                btnCheckout.disabled = false;
+                btnCheckout.style.opacity = '1';
+            }
 
             let total = 0;
-            lista.innerHTML = '';
-
+            if (lista) lista.innerHTML = '';
             carrito.forEach((item, index) => {
                 total += item.precio;
-                lista.innerHTML += `
-                    <div class="cart-item">
-                        <span class="cart-item-name">${item.nombre}</span>
-                        <div>
-                            <span class="cart-item-price">${item.precio.toFixed(2)} €</span>
-                            <button class="btn-remove" onclick="eliminarDelCarrito(${index})">✕</button>
-                        </div>
-                    </div>
-                `;
+                if (lista) {
+                    lista.innerHTML += `
+                        <div class="cart-item">
+                            <span class="cart-item-name">${item.nombre}</span>
+                            <div>
+                                <span class="cart-item-price">${item.precio.toFixed(2)} €</span>
+                                <button class="btn-remove" onclick="eliminarDelCarrito(${index})">✕</button>
+                            </div>
+                        </div>`;
+                }
             });
 
-            totalElem.innerText = `${total.toFixed(2)} €`;
+            if (totalElem) totalElem.innerText = `${total.toFixed(2)} €`;
         }
 
-        // CONEXIÓN CON TU SERVIDOR DE STRIPE (node server.js)
         async function pagarConStripe() {
             if (carrito.length === 0) return;
 
@@ -476,7 +439,6 @@
 
             try {
                 const respuesta = await fetch('/api/crear-sesion-pago', {
-                    app.use(express.static(__dirname));
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ items: carrito })
@@ -491,15 +453,18 @@
                     return;
                 }
 
-                const resultado = await stripe.redirectToCheckout({
-                    sessionId: sesion.id
-                });
+                if (!stripe && typeof Stripe !== 'undefined') {
+                    stripe = Stripe('pk_test_51UI4YvHszZhpsuer7qShDCyPDATDZ5urmHODMsYQTGzVSPxmsLCh6zgBTGKClKl7DWSBK9RP25nNladrIyOfEMF500V1L3qnV8');
+                }
 
-                if (resultado.error) {
-                    alert(resultado.error.message);
+                if (stripe) {
+                    const resultado = await stripe.redirectToCheckout({ sessionId: sesion.id });
+                    if (resultado.error) alert(resultado.error.message);
+                } else {
+                    alert("No se pudo cargar la librería de Stripe. Revisa tu conexión.");
                 }
             } catch (err) {
-                alert('No se pudo conectar con el servidor backend. Asegúrate de tener corriendo "node server.js".');
+                alert('No se pudo conectar con el servidor backend.');
                 btnCheckout.innerText = "Pagar de forma segura con Stripe 🔒";
                 btnCheckout.disabled = false;
             }
